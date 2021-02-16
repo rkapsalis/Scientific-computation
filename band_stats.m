@@ -18,25 +18,28 @@ function P = band_stats(mxid, p)
  N = size(A,1);
  disp(N); 
  P = [];
- for k=1:2:2*p+1
+ for k=0:p-1
     % create band matrix
     Aband = spdiags( spdiags(A, -k:k), -k:k, N, N );
+    % convert sparse matrix to full
     Aband = full( Aband );
-    %non zero elements of band matrix
+    % non zero elements of band matrix
     nz_Aband = nnz(Aband);
+    % number of non zero elements in relation to A
     rnnz = nz_Aband/nz_A;
+    % relative error
     rerr = norm(A - Aband,'fro')/norm(A,'fro');
+    % append rerr and rnnz to P array
     P = [P; rnnz, rerr];
  end
  disp(Aband);
  disp("P-matrix")
  disp(P);
- y = (1: 2: 2*p+1);
+ y = (1:2:2*p-1);
 figure();
-semilogy(y, P(:,1), 'r-*');
-hold on
-semilogy(y, P(:,2), 'b-o');
-title('rnnz');
+plot(y,P(:,1),y,P(:,2));
+title(mxid);
 xlabel('k');
 legend('rnnz','rerr');
+disp(k);
 end
