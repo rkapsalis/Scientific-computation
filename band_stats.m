@@ -5,13 +5,13 @@ function P = band_stats(mxid, p)
  if(isa(mxid,'integer'))
       A = ssget(mxid);
  elseif(isa(mxid,'char'))
-      A = ssget(mxid);
+      A = ssget(mxid).A;
  elseif(((r > 1) || (c > 1)) && isnumeric(mxid))
       A = mxid;
  else
      disp("Wrong input given, please try again.");
  end
- 
+ p=size(A,1);
  %non zero elements of matrix A
  nz_A = nnz(A);
  % size of matrix
@@ -22,7 +22,7 @@ function P = band_stats(mxid, p)
     % create band matrix
     Aband = spdiags( spdiags(A, -k:k), -k:k, N, N );
     % convert sparse matrix to full
-    Aband = full( Aband );
+     Aband = full( Aband );
     % non zero elements of band matrix
     nz_Aband = nnz(Aband);
     % number of non zero elements in relation to A
@@ -37,9 +37,10 @@ function P = band_stats(mxid, p)
  disp(P);
  y = (1:2:2*p-1);
 figure();
-plot(y,P(:,1),y,P(:,2));
-title(mxid);
+plot(y,P(:,1),'--d',y,P(:,2),'-s');
+title("Gset/G43");
 xlabel('k');
+ylabel('value');
 legend('rnnz','rerr');
 disp(k);
 end
