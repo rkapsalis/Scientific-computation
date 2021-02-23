@@ -22,7 +22,7 @@ for x=1:nb:(n-nb+1)
     
     %for any block column
     for y=1:nb:(n-nb+1)  
-
+        %column counter
         nnzb = nnzb + 1;
         block = A(x:x+nb-1,y:y+nb-1);
 
@@ -69,5 +69,6 @@ if(rowCount==1)
    %calculate row block
    row_blk(row_idx) = row_blk(row_idx-1) + blck_row(row_idx-1);
 end
-val = reshape(temp_blk_array,[nb,nb,blck_no]);
+val = reshape(full(temp_blk_array),[nb,nb,blck_no]);
 end
+
